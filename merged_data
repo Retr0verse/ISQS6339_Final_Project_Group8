@@ -1,1 +1,47 @@
+import pandas as pd
 
+# files
+houses = "HouseTS_cleaned.csv"
+public_schools = "Public_Schools.csv"
+private_schools = "Private_Schools.csv"
+
+# load
+house  = pd.read_csv(houses, on_bad_lines="skip", low_memory=False)
+public = pd.read_csv(public_schools, on_bad_lines="skip", low_memory=False)
+private= pd.read_csv(private_schools, sep=";", on_bad_lines="skip", low_memory=False)
+
+print("house:", house.shape)
+print("public:", public.shape)
+print("private:", private.shape)
+
+# create zip column
+def prep_zip(df):
+    zip_cols = [c for c in df.columns if "zip" in c.lower()]
+    z = zip_cols[0]
+    df = df.rename(columns={z: "zipcode"})
+    df["zipcode"] = df["zipcode"].astype(str).str.zfill(5)
+    return df
+
+house  = prep_zip(house)
+public = prep_zip(public)
+private = prep_zip(private)
+
+# only Texas schools
+public  = public[public["STATE"] == "TX"]
+private = private[private["STATE"] == "TX"]
+
+print("public TX:", public.shape)
+print("private TX:", private.shape)
+
+# check dtypes
+print("dtypes:", house["zipcode"].dtype, public["zipcode"].dtype, private["zipcode"].dtype)
+
+# merge
+merged = pd.merge(house, public, on="zipcode", how="inner")
+merged = pd.merge(merged, private, on="zipcode", how="inner")
+
+print("merged TX only:", merged.shape)
+
+# save
+merged.to_csv("Merged_Dataset.csv", index=False)
+print("saved Merged_Dataset.csv")
