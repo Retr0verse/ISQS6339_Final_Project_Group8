@@ -10,9 +10,10 @@ Our goal was to explore relationships between home values, incomes, unemployment
 - `analysis_visuals.py` → script used for analysis + visualizations  
 
 ## Team Roles
-- Data cleaning/merging → [Teammate names]  
-- Analysis + visualizations → Jonathan  
-- Presentation + slides → [Teammate names]  
+- Data Cleaning Lead → Deborah  
+- Merging Lead → Chasidy  
+- Analysis Lead → Jonathan  
+- Presentation Lead → Dina  
 
 ## Quick Insights
 - Home values track closely with income (positive correlation).  
