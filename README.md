@@ -1,2 +1,23 @@
-# ISQS6339_Final_Project_Group8
-Final project for ISQS 6339 – Group 8 (cleaning, merging, analysis, presentation)
+# Housing Market Analysis (Group 8)
+
+This project looks at housing data from multiple sources and combines them into one dataset.  
+Our goal was to explore relationships between home values, incomes, unemployment, school enrollment, and location.  
+
+## Repo Structure
+- `/outputs/` → charts and visuals generated from the data  
+- `/docs/` → insights write-up (Housing_EDA_Insights.docx)  
+- `/data/` → cleaned/merged datasets (if applicable)  
+- `analysis_visuals.py` → script used for analysis + visualizations  
+
+## Team Roles
+- Data cleaning/merging → [Teammate names]  
+- Analysis + visualizations → Jonathan  
+- Presentation + slides → [Teammate names]  
+
+## Quick Insights
+- Home values track closely with income (positive correlation).  
+- Top ZIP codes and metros show very different market behaviors.  
+- School enrollment tiers may signal property pricing trends.  
+- Unemployment can act as a caution flag for investors.  
+
+Outputs and insights are saved in the repo and ready to support the group presentation.
