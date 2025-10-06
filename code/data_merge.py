@@ -207,26 +207,6 @@ else:
     final["violent_crime_cnt"]  = np.nan
     final["property_crime_cnt"] = np.nan
 
-# Yearly housing trends by ZIP
-is_monthly = final["period"].dtype == "period[M]"
-final = final.sort_values(["zipcode","period"])
-
-if is_monthly:
-    final["price_roll12"] = final.groupby("zipcode")[price_col].transform(
-        lambda s: s.rolling(12, min_periods=3).mean()
-    )
-    final["price_yoy_pct"] = final.groupby("zipcode")[price_col].transform(
-        lambda s: s.pct_change(12)
-    )
-else:
-    final["price_roll3y"] = final.groupby("zipcode")[price_col].transform(
-        lambda s: s.rolling(3, min_periods=2).mean()
-    )
-    final["price_yoy_pct"] = final.groupby("zipcode")[price_col].transform(
-        lambda s: s.pct_change(1)
-    )
-
-
 # Texas Summary
 state_year = (
     final.groupby("year", observed=True).agg(
@@ -241,6 +221,12 @@ state_year = (
         property_crime_cnt=("property_crime_cnt","first")
     ).reset_index()
 )
+
+# Remove redundant columns
+to_remove = {"date", "month"}
+drop_cols = [c for c in final.columns if c.lower() in to_remove]
+final = final.drop(columns=drop_cols)
+print("Dropped from final:", drop_cols)
 
 # Save Merged Datasets
 base = r"C:\Users\Deborah Cuellar\Desktop\isqs_6339_project"
