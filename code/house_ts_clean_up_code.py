@@ -28,12 +28,19 @@ value_counts_series = df['city_full'].value_counts()
 print(value_counts_series)
 
 # Clean Up by City by removing cities not being analyzed
-cities_to_drop = ['NY', 'CHI','LA','PHL','DC','PGH','BOS','MSP','DET','STL',
-                  'ATL','MIA','SF','SEA','PHX','CIN','BWI','RIV','TPA','DEN',
-                  'PDX','SAC','CLT','SD','ORL','LV']
-indices_to_drop = df[df['city'].isin(cities_to_drop)].index
+df['city'] = df['city'].astype(str).str.strip().str.upper()
 
-df_filtered = df.drop(indices_to_drop)
+cities_to_drop = [
+    'NY','CHI','LA','PHL','DC','PGH','BOS','MSP','DET','STL',
+    'ATL','MIA','SF','SEA','PHX','CIN','BWI','RIV','TPA','DEN',
+    'PDX','SAC','CLT','SD','ORL','LV'
+]
+df = df[~df['city'].isin(cities_to_drop)]
+
+# Add Texas explicitly into dataset
+if 'city' in df.columns:
+    city_index = df.columns.get_loc('city')
+    df.insert(city_index + 1, 'state', 'TX')
 
 # Clean Up by Extra Info not needed for this analysis
 cols_to_drop = ['bank', 'bus', 'hospital', 'mall', 'park', 'restaurant','school','station',
@@ -57,3 +64,6 @@ print(f" Cleaned CSV saved to: {dst_csv}")
 # Check that rows and columns were deleted from update file
 print("\nShape:", df.shape)
 print("\nDtypes:\n", df.dtypes.head(20))
+
+value_counts_series = df['city'].value_counts()
+print(value_counts_series)
